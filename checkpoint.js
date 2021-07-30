@@ -349,7 +349,7 @@ var binarySearch = function (array, target) {
 
   if(target < array[mitad]){
    
-    for(var i=0; i<mitad; i++){
+    for(var i=0; i<left.length; i++){
       if(array[i] === target){
         return i;
       }
@@ -357,7 +357,7 @@ var binarySearch = function (array, target) {
   }
 
   else{
-    for(var i=mitad; i<array.length; i++){
+    for(var i=mitad; i<right.length; i++){
       if(array[i] === target){
         return i;
       }
