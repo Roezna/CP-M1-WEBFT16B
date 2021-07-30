@@ -121,6 +121,18 @@ function secuenciaHenry(obj, n) {
 LinkedList.prototype.size = function(){
   // Tu código aca:
 
+  var current = this.head;
+  var contador = 0;
+  if(this.head === null){
+    return 0;
+  }
+  
+  while(current){
+    contador++;
+    current = current.next;
+  }
+  return contador;
+
 }
 
 
@@ -142,6 +154,27 @@ LinkedList.prototype.size = function(){
 LinkedList.prototype.switchPos = function(pos1, pos2){
   // Tu código aca:
 
+  if(pos1 < 0 || pos2 < 0) return false;
+  if(pos1 > this.size() || pos2 > this.size()) return false;
+
+  var current = this.head;
+  var current2 = this.head;
+
+  for(var i=0; i<pos1; i++){
+    current = current.next;
+  }
+  var firstValue = current.value;
+
+  for(var i=0; i<pos2; i++){
+    current2 = current2.next;
+  }
+  var secondValue = current2.value;
+
+  current.value = secondValue;
+  current2.value = firstValue;
+
+  return true;
+
 }
 
 // EJERCICIO 5
@@ -158,6 +191,20 @@ LinkedList.prototype.switchPos = function(pos1, pos2){
 var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
 
+    var nuevaLista = new LinkedList();
+    var current = linkedListOne.head;
+    var current2 = linkedListTwo.head;
+
+    while(current){
+
+      nuevaLista.add(current.value);
+      current = current.next;
+      nuevaLista.add(current2.value);
+      current2 = current2.next;
+
+    }
+
+    return nuevaLista;
 }
 
 
@@ -206,6 +253,42 @@ var mergeLinkedLists = function(linkedListOne, linkedListTwo){
 var cardGame = function(playerOneCards, playerTwoCards){
   // Tu código aca:
 
+  var castlePLayerOne = 100;
+  var castlePLayerTwo = 100;
+
+  do{
+
+    var cardPlayerOneAttack = playerOneCards.dequeue();
+    var cardPlayerOneDefense = playerOneCards.dequeue();    
+    var cardPlayerTwoAttack = playerTwoCards.dequeue();
+    var cardPlayerTwoDefense = playerTwoCards.dequeue();
+
+    if(cardPlayerOneAttack.attack > cardPlayerTwoDefense.defense){
+      castlePLayerTwo -= (cardPlayerOneAttack.attack - cardPlayerTwoDefense.defense);
+    }
+    
+    if(cardPlayerTwoAttack.attack > cardPlayerOneDefense.defense){ 
+      castlePLayerOne -= cardPlayerTwoAttack.attack - cardPlayerOneDefense.defense;
+    }
+     
+    if(castlePLayerTwo === 0){
+      return 'PLAYER ONE';
+    }
+    else if(castlePLayerOne === 0){
+      return 'PLAYER TWO';
+    }
+
+  }while(playerOneCards > 0);
+
+  if(castlePLayerTwo < castlePLayerOne){
+    return 'PLAYER ONE';
+  }
+  else if(castlePLayerOne < castlePLayerTwo){
+    return 'PLAYER TWO';
+  }
+  else if(castlePLayerTwo === castlePLayerOne){
+    return 'TIE';
+  }
 }
 
 // ---------------
@@ -230,6 +313,12 @@ var cardGame = function(playerOneCards, playerTwoCards){
 BinarySearchTree.prototype.height = function(){
   // Tu código aca:
 
+  if(!this.left && !this.right) return 1;
+  if(this.left && !this.right) return 1 + this.left.height();
+  if(!this.left && this.right) return 1 + this.right.height();
+  
+  return 1 + Math.max(this.left.height(),this.right.height());
+
 }
 
 
@@ -252,6 +341,29 @@ BinarySearchTree.prototype.height = function(){
 var binarySearch = function (array, target) {
   // Tu código aca:
 
+  if(array.indexOf(target) < 0) return -1;
+
+  var mitad = Math.floor((array.length -1 )/ 2); 
+  var right = array.slice(mitad,array.length-1);
+  var left = array.slice(0,mitad);
+
+  if(target < array[mitad]){
+   
+    for(var i=0; i<mitad; i++){
+      if(array[i] === target){
+        return i;
+      }
+    }
+  }
+
+  else{
+    for(var i=mitad; i<array.length; i++){
+      if(array[i] === target){
+        return i;
+      }
+    }
+  }
+return false;
 }
 
 // EJERCICIO 9
@@ -280,6 +392,22 @@ var binarySearch = function (array, target) {
 var specialSort = function(array, orderFunction) {
   // Tu código aca:
 
+  var swap = true;
+
+  while(swap){
+    swap = false;
+    for(var i=0; i<array.length -1; i++){
+
+      if(orderFunction(array[i],array[i+1]) === -1){
+        var change = array[i];
+        array[i] = array[i+1];
+        array[i+1] = change;
+        swap = true;
+      }
+
+    }
+  }
+    return array;
 }
 
 // ----- Closures -----
@@ -313,8 +441,31 @@ var specialSort = function(array, orderFunction) {
 function closureDetect(symptoms, min) {
   // Tu código aca:
 
+
+
+return function(objeto){
+
+  var sintomas = 0;
+  
+  for(var i=0; i<symptoms.length; i++){
+    for(var j=0; j<objeto.symptoms.length; j++){
+        if(symptoms[i] === objeto.symptoms[j]){
+          sintomas++;
+        }
+    }
+}  
+
+  if(sintomas >= min){
+  return true;
+  }
+
+  else{
+    return false;
+  }
+
 }
 
+}
 // -------------------
 
 module.exports = {
