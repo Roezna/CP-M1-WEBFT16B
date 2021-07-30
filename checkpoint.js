@@ -40,6 +40,11 @@ const {
 var isAncestor = function(genealogyTree, ancestor, descendant){
   // Tu código aca:
 
+  if(genealogyTree[ancestor].length < 1 ) return false;
+
+  
+
+
 }
 
 
